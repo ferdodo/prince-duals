@@ -1,6 +1,6 @@
 import type { Connection } from "connection-types";
 import { Subject, merge, combineLatest, from, mergeMap } from "rxjs";
-import type { Message, Game, Context } from "core/types"; 
+import type { Message, Game } from "core/types";
 
 import {
 	computeIndication,
@@ -12,15 +12,15 @@ import {
 	interact,
 	isTitleShown,
 	GameState,
-	appContext,
+	useAppContext,
 	createClientConnection
 } from "core";
 
 import { html } from "htm/preact";
-import { useContext, useEffect, useState, useMemo } from "preact/hooks";
+import { useEffect, useState, useMemo } from "preact/hooks";
 
-export function Playground({ dataTestid }) {
-	const context: Context = useContext(appContext);
+export function Playground({ dataTestid }: { dataTestid: string }) {
+	const context = useAppContext();
 
 	const waitConnection: Promise<Connection<Message>> = useMemo(
 		() => createClientConnection(context),

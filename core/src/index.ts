@@ -1,4 +1,5 @@
 export { appContext } from "./app-context";
+export { useAppContext } from "./use-app-context";
 export { Character } from "./character";
 export { computeIndication } from "./compute-indication";
 export { ConfigFactory } from "./config-factory";

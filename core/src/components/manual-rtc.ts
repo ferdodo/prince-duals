@@ -1,13 +1,14 @@
-import type { Context } from "core/types";
 import { html } from "htm/preact";
-import { useContext, useEffect, useState, useMemo } from "preact/hooks";
+import { useEffect, useState, useMemo } from "preact/hooks";
+import { ChangeEvent } from "preact/compat";
 import { css } from "goober";
-import { appContext, broadcastIncomingSignaling, Character, outcomingSignaling$ } from "core";
+import type { SignalingEvent } from "core/types";
+import { useAppContext, broadcastIncomingSignaling, Character, outcomingSignaling$ } from "core";
 
-export function ManualRtc({ dataTestid }) {
+export function ManualRtc({ dataTestid }: { dataTestid: string }) {
 	const [receivedSignalingEvents, setReceivedSignalingEvents] = useState("");
-	const [signalingEvents, setSignalingEvents] = useState([]);
-	const context: Context = useContext(appContext);
+	const [signalingEvents, setSignalingEvents] = useState<SignalingEvent[]>([]);
+	const context = useAppContext();
 	const [config, setConfig] = useState(context.configStorage.read());
 	const sub = useMemo(() => context.configStorage.watch().subscribe(setConfig), [context]);
 	const [manualRtcCompleted, setManualRtcCompleted] = useState(false);
@@ -16,8 +17,8 @@ export function ManualRtc({ dataTestid }) {
 		context.configStorage.save({ offlineModeCharacter });
 	}
 
-	function updateStunServer(event) {
-		context.configStorage.save({ stunServer: (event.target.value as string) });
+	function updateStunServer(event: ChangeEvent<HTMLInputElement>) {
+		context.configStorage.save({ stunServer: event.currentTarget.value });
 	}
 
 	const sub2 = useMemo(function() {
@@ -27,8 +28,8 @@ export function ManualRtc({ dataTestid }) {
 		});
 	}, [signalingEvents]);
 
-	async function receiveSignalingEvents(event) {
-		broadcastIncomingSignaling(JSON.parse(event.target.value));
+	async function receiveSignalingEvents(event: ChangeEvent<HTMLTextAreaElement>) {
+		broadcastIncomingSignaling(JSON.parse(event.currentTarget.value));
 		setReceivedSignalingEvents("");
 
 		if (config.offlineModeCharacter === Character.PlayerA) {

@@ -1,11 +1,17 @@
 services:
   front:
-    build: front
+    build:
+      context: front
+      additional_contexts:
+        prince-duals-core: service:core
     ports:
-      - "3366:5173"
+      - "3366:3366"
 
   back:
-    build: back
+    build:
+      context: back
+      additional_contexts:
+        prince-duals-core: service:core
     ports:
       - "3377:3000"
 
@@ -18,5 +24,7 @@ services:
   coverage:
     build:
       context: coverage
+      additional_contexts:
+        prince-duals-core: service:core
     ports:
       - 3388:80

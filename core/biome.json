@@ -10,7 +10,13 @@
     "formatter": {
         "enabled": false
     },
-    "organizeImports": {
-        "enabled": false
+    "assist": {
+        "actions": {
+            "source": {
+                "organizeImports": {
+                    "level": "off"
+                }
+            }
+        }
     }
 }

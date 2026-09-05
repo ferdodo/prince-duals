@@ -1,12 +1,10 @@
 {
 	"compilerOptions": {
-		"baseUrl": ".",
 		"skipLibCheck": true,
 		"noEmit": true,
-		"downlevelIteration": true,
 		"paths": {
-			"core": ["src/index"],
-			"core/*": ["src/*/index"]
+			"core": ["./src/index"],
+			"core/*": ["./src/*/index"]
 		},
 		"lib": [
 			"ESNext",

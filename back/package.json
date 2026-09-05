@@ -4,11 +4,11 @@
   },
   "devDependencies": {
     "@types/node": "^20.2.1",
+    "core": "file:../core",
     "esbuild": "^0.17.19",
     "rxjs": "^7.8.1",
     "typescript": "^5.0.4",
-    "ws": "^8.17.0",
-    "core": "file:../core"
+    "ws": "^8.17.0"
   },
   "dependencies": {
     "connection-types": "^1.0.0"

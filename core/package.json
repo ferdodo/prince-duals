@@ -9,19 +9,18 @@
 		"build": "tsc && vitest run && biome ci ."
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^1.7.3",
-		"@stryker-mutator/core": "^8.2.6",
-		"@stryker-mutator/vitest-runner": "^8.2.6",
-		"@testing-library/preact": "^3.2.3",
-		"@types/node": "^20.12.7",
+		"@biomejs/biome": "^2.5.12",
+		"@stryker-mutator/core": "^9.6.1",
+		"@stryker-mutator/vitest-runner": "^9.6.1",
+		"@testing-library/preact": "^3.2.4",
+		"@types/node": "^26.4.1",
 		"connection-types": "^1.0.0",
-		"core": "file:.",
-		"goober": "^2.1.14",
+		"goober": "^2.1.19",
 		"htm": "^3.1.1",
-		"jsdom": "^24.0.0",
-		"preact": "^10.22.0",
-		"typescript": "^5.4.2",
-		"uid": "^2.0.2",
-		"vitest": "^1.4.0"
+		"jsdom": "^30.0.1",
+		"preact": "^10.29.8",
+		"rxjs": "^7.8.1",
+		"typescript": "^7.0.2",
+		"uid": "^2.0.2"
 	}
 }

@@ -37,9 +37,10 @@ export class ContextFactory {
 					_rtcServerConnetion$ = new Subject();
 				}
 
+				const rtcServerConnection = _rtcServerConnetion$;
 				const createConnection = () => {
 					const [clientConnection, serverConnection] = createBidirectionalConnectionMock();
-					_rtcServerConnetion$.next(serverConnection);
+					rtcServerConnection.next(serverConnection);
 					return clientConnection;
 				};
 

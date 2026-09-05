@@ -3,7 +3,7 @@ WORKDIR /prince-duals/front
 COPY package.json .
 COPY npm-shrinkwrap.json .
 RUN npm install
-RUN npm audit --audit-level=moderate
+RUN npm audit --audit-level=high
 
 FROM prince-duals-core
 COPY --from=0 /prince-duals/front/node_modules /prince-duals/front/node_modules
