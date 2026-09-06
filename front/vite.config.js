@@ -1,10 +1,5 @@
 export default {
-	root: "./public",
-	resolve: {
-		alias: {
-			"/bundle.js": "../src/index.ts"
-		}
-	},
+	base: "./",
 	build: {
 		sourcemap: true
 	}
