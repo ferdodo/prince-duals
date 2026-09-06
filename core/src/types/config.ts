@@ -8,5 +8,7 @@ export interface Config {
 	wsPort: number;
 	offlineMode: boolean;
 	stunServer?: string;
+	supabaseUrl?: string;
+	supabaseAnonKey?: string;
 	offlineModeCharacter: Character;
 }

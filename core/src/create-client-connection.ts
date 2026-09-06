@@ -1,6 +1,6 @@
 import type { Context, Message } from "core/types";
 import type { Connection } from "connection-types";
-import { createGameStorage, initiateBackendHandlers } from "core";
+import { createGameStorage, initiateBackendHandlers, Character } from "core";
 
 export async function createClientConnection(context: Context): Promise<Connection<Message>> {
 	const config = context.configStorage.read();
@@ -11,7 +11,7 @@ export async function createClientConnection(context: Context): Promise<Connecti
 		const [
 			createConnection,
 			serverConnection$
-		] = await context.createRtcConnection(context.configStorage);
+		] = await context.createRtcConnection(context.configStorage, Character.PlayerA);
 
 		initiateBackendHandlers(context.offlineModeGameStorage, serverConnection$);
 		return createConnection();

@@ -3,8 +3,16 @@ import { Observable, Subject, share, filter, firstValueFrom } from "rxjs";
 import type { ConfigStorage, SignalingEvent } from "core/types";
 import { broadcastOutcomingSignaling, incomingSignaling$, Character } from "core";
 
+// Décalage aléatoire avant de se déclarer joueur A : si les deux navigateurs
+// démarrent ensemble, il évite qu'ils émettent leur offre dans le même instant.
+const MAX_START_DELAY = 1000;
+
+// Silence au bout duquel le joueur A considère que personne ne lui répondra.
+const ROLE_TIMEOUT = 3000;
+
 export async function createRtcConnection<T>(
-	configStorage: ConfigStorage
+	configStorage: ConfigStorage,
+	role: Character
 ): Promise<[() => Connection<T>, Observable<Connection<T>>]> {
 	const broadcastToServer$ = new Subject<T>();
 	const broadcastToCurrentTabFromServer$ = new Subject<T>();
@@ -93,14 +101,6 @@ export async function createRtcConnection<T>(
 		await peerConnection.setLocalDescription(offer);
 		broadcastOutcomingSignaling({ offer });
 	}
-
-	firstValueFrom(
-		configStorage.watch()
-			.pipe(
-				filter(config => config.offlineModeCharacter === Character.PlayerA),
-			)
-	)
-		.then(sendOffers, console.error);
 
 	peerConnection.ondatachannel = function receiveChannelCallback(event: RTCDataChannelEvent) {
 		event.channel.onmessage = function(event: MessageEvent<string>) {
@@ -224,7 +224,27 @@ export async function createRtcConnection<T>(
         }
     }
 
-	await firstValueFrom(_connected$);
+	if (role === Character.PlayerA) {
+		await new Promise(r => setTimeout(r, Math.random() * MAX_START_DELAY));
+		sendOffers().catch(console.error);
+
+		const connected = await Promise.race([
+			firstValueFrom(_connected$).then(() => true),
+			new Promise<boolean>(r => setTimeout(() => r(false), ROLE_TIMEOUT))
+		]);
+
+		if (!connected) {
+			// Personne n'a répondu à notre offre. Cette connexion porte déjà une
+			// description locale, elle ne peut plus accepter d'offre entrante :
+			// on la démonte et on repart en joueur B.
+			signalingSubscription.unsubscribe();
+			subscriptionToSendToWebRTC.unsubscribe();
+			peerConnection.close();
+			return createRtcConnection<T>(configStorage, Character.PlayerB);
+		}
+	} else {
+		await firstValueFrom(_connected$);
+	}
 
 	return <[() => Connection<T>, Observable<Connection<T>>]> [
 		createClientConnection,

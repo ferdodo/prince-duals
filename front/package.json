@@ -1,11 +1,10 @@
 {
   "scripts": {
-    "build": "tsc && esbuild --bundle src/index.ts --outfile=public/bundle.js",
+    "build": "tsc && vite build",
     "start": "vite --host --port 3366"
   },
   "devDependencies": {
     "core": "file:../core",
-    "esbuild": "^0.28.2",
     "rxjs": "^7.8.1",
     "typescript": "^5.0.4",
     "vite": "^8.2.2"

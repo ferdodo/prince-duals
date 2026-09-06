@@ -11,3 +11,4 @@ export type { Message } from './message';
 export type { ObserveGameBroadcast } from './observe-game-broadcast';
 export type { ObserveMyCharacterBroadcast } from './observe-my-character-broadcast';
 export type { SignalingEvent } from './signaling-event';
+export type { SignalingSocket } from './signaling-socket';
